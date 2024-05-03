@@ -25,7 +25,7 @@ public class Designatore {
         this.nome = nome;
         this.cognome = cognome;
         this.password = password;
-        nextCodice++;
+        nextCodice++; 
     }
     
     /**
