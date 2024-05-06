@@ -365,6 +365,9 @@ public class App {
                                                                     System.out.println("inserisci la categoria");
                                                                     categoria=input.readString();
                                                                     if(!"giovanissimi".equals(categoria) || !"allievi".equals(categoria) || !"juniores".equals(categoria) || !"terza categoria".equals(categoria) || !"seconda categoria".equals(categoria) || !"prima categoria".equals(categoria) || !"promozione".equals(categoria) || !"eccellenza".equals(categoria) || !"serie D".equals(categoria) || !"serie C".equals(categoria) || !"serie B".equals(categoria) || !"serie A".equals(categoria)){
+                                                                        
+                                                                    }
+                                                                    else{
                                                                         throw new InvalidCategoryException();
                                                                     }
                                                                     do{
@@ -383,7 +386,7 @@ public class App {
                                                                     System.out.println("inserisci la distanza");
                                                                     int distanza=input.readInt();
                                                                     Partita partita=new Partita(squadraOspitante, squadraOspite, citta, giorno, distanza, categoria);
-                                                                    sezione.designaPartita(codice, partita);
+                                                                    sezione.designaPartita((int) arbitro.getCodice(), partita);
                                                                     System.out.println("partita designata con successo");
                                                                     arbitroTrovato=true;
                                                                 }else{
