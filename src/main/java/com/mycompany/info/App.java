@@ -25,9 +25,9 @@ import utility.TextFile;
 public class App {
         
     public static void main(String[] args) {
-        
+        System.out.println("il presidente è sempre nome, cognome, password");
         Sezione sezione=new Sezione();
-       
+        sezione.deserializzazione();
         ArrayList<Designatore> elencoDesignatori=sezione.visualizzaDesignatori();
         int numeroVoci=4;
         String[] vociMenu=new String[numeroVoci];
@@ -62,7 +62,7 @@ public class App {
                 //accedi come arbitro
                 case 1 -> {
                     do{
-                        
+                        System.out.println("se è il tuo primo accesso la password è: nome_cognome");
                         try{
                             System.out.println("inserisci il tuo nome");
                             nome=input.readString();
@@ -282,7 +282,7 @@ public class App {
                     
                 //accedi come designatore
                 case 2 -> {
-                        
+                    System.out.println("se è il tuo primo accesso la password è: nome_cognome");
                     try{
                         System.out.println("inserisci il tuo nome");
                         nome=input.readString();
@@ -577,9 +577,9 @@ public class App {
                                         vociMenuPresidente[2]="2 -->\tRegistra nuovo designatore";
                                         vociMenuPresidente[3]="3 -->\tElimina arbitro";
                                         vociMenuPresidente[4]="4 -->\tElimina designatore";
-                                        vociMenuPresidente[5]="5 -->\tLogout";
+                                        vociMenuPresidente[5]="5 -->\tvisualizza tutte le partite";
                                         vociMenuPresidente[6]="6 -->\tvisualizza tutti gli arbitri";
-                                        vociMenuPresidente[7]="7 -->\tvisualizza tutte le partite";
+                                        vociMenuPresidente[7]="7 -->\tLogout";
                                         menuPresidente=new Menu(vociMenuPresidente);
                                         sceltaMenuPresidente=menuPresidente.sceltaMenu();
 
@@ -601,8 +601,15 @@ public class App {
                                                             throw new ExistingRefereeException();
                                                         }
                                                     }
-                                                    System.out.println("Inserisci la categoria");
+                                                    System.out.println("inserisci la categoria");
+                                                    System.out.println("(giovanissimi, allievi, juniores, terza categoria, seconda categoria,\n prima categoria, promozione, eccellenza, serie D, serie C, serie B, serie A)");    
                                                     categoria=input.readString();
+                                                    if(!"giovanissimi".equals(categoria) || !"allievi".equals(categoria) || !"juniores".equals(categoria) || !"terza categoria".equals(categoria) || !"seconda categoria".equals(categoria) || !"prima categoria".equals(categoria) || !"promozione".equals(categoria) || !"eccellenza".equals(categoria) || !"serie D".equals(categoria) || !"serie C".equals(categoria) || !"serie B".equals(categoria) || !"serie A".equals(categoria)){
+
+                                                    }
+                                                    else{
+                                                        throw new InvalidCategoryException();
+                                                    }
                                                     System.out.println("Inserisci l'eta");
                                                     eta=input.readInt();
                                                     password=nome+"_"+cognome;
@@ -613,6 +620,9 @@ public class App {
                                                 }
                                                 catch(ExistingRefereeException e){
                                                     System.out.println("ERROR ExistingRefereeException::arbitro gia esistente");
+                                                }
+                                                catch(InvalidCategoryException e){
+                                                    System.out.println("ERROR InvalidCategoryException::categoria non valida");
                                                 }
                                                 break;
                                             }
@@ -686,24 +696,27 @@ public class App {
                                                 }
                                                 break;
                                             }
+                                            
                                             case 5 -> {
-                                                break;
-                                            }
-                                            case 6 -> {
-                                                System.out.println();
-                                                for(Arbitro arbitro : elencoArbitri){
-                                                    System.out.println(arbitro.toString());
-                                                }
-                                            }
-                                            case 7 -> {
                                                 ArrayList<Partita> elencoPartiteOrdinate=sezione.elencoPartiteOrdinato();
                                                 for(Partita partita : elencoPartiteOrdinate){
                                                     System.out.println(partita);
                                                     System.out.println();
                                                 }
                                             }
+                                            
+                                            case 6 -> {
+                                                System.out.println();
+                                                for(Arbitro arbitro : elencoArbitri){
+                                                    System.out.println(arbitro.toString());
+                                                }
+                                            }
+                                            
+                                            case 7 -> {
+                                                break;
+                                            }
                                         }
-                                    }while(sceltaMenuPresidente!=5);
+                                    }while(sceltaMenuPresidente!=7);
                                 }
                                 else{
                                     throw new InvalidPasswordException();
@@ -738,6 +751,9 @@ public class App {
         //ESPORTA SU FILE CSV
         exportRefereeAndMatch(elencoArbitri);
         exportDesignator(elencoDesignatori);
+        //ESPORTA SU FILE BINARIO
+        sezione.serializzazione();
+        
     }
     
     public static void exportRefereeAndMatch(ArrayList<Arbitro> elencoArbitri) {

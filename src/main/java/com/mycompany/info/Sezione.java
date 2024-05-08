@@ -3,6 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.info;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -173,23 +179,78 @@ public class Sezione {
     }
     
     
-public ArrayList<Partita> elencoPartiteOrdinato() {
-    ArrayList<Partita> elencoPartiteOrdinato = new ArrayList<>();
-    for (Arbitro arbitro : arbitri) {
-        for (Partita partita : arbitro.getPartite()) {
-            elencoPartiteOrdinato.add(partita);
-        }
-    }
-    int lunghezza = elencoPartiteOrdinato.size();
-    for (int i = 0; i < lunghezza - 1; i++) {
-        for (int j = i + 1; j < lunghezza; j++) {
-            if (elencoPartiteOrdinato.get(j).getGiorno().compareTo(elencoPartiteOrdinato.get(i).getGiorno()) < 0) {
-                Partita temp = elencoPartiteOrdinato.get(i);
-                elencoPartiteOrdinato.set(i, elencoPartiteOrdinato.get(j));
-                elencoPartiteOrdinato.set(j, temp);
+    public ArrayList<Partita> elencoPartiteOrdinato() {
+        ArrayList<Partita> elencoPartiteOrdinato = new ArrayList<>();
+        for (Arbitro arbitro : arbitri) {
+            for (Partita partita : arbitro.getPartite()) {
+                elencoPartiteOrdinato.add(partita);
             }
         }
+        int lunghezza = elencoPartiteOrdinato.size();
+        for (int i = 0; i < lunghezza - 1; i++) {
+            for (int j = i + 1; j < lunghezza; j++) {
+                if (elencoPartiteOrdinato.get(j).getGiorno().compareTo(elencoPartiteOrdinato.get(i).getGiorno()) < 0) {
+                    Partita temp = elencoPartiteOrdinato.get(i);
+                    elencoPartiteOrdinato.set(i, elencoPartiteOrdinato.get(j));
+                    elencoPartiteOrdinato.set(j, temp);
+                }
+            }
+        }
+        return elencoPartiteOrdinato;
     }
-    return elencoPartiteOrdinato;
-}
+    
+    public void salvaDati(String nomeFile) throws FileNotFoundException, IOException
+    {
+        ObjectOutputStream writer=new ObjectOutputStream(new FileOutputStream(nomeFile));
+        writer.writeObject(this);
+        writer.flush();
+        writer.close();
+    }
+    
+     public Sezione caricaDati(String nomeFile) throws FileNotFoundException, IOException, ClassNotFoundException
+    {
+        Sezione s1;
+        ObjectInputStream reader=new ObjectInputStream(new FileInputStream(nomeFile));
+        s1=(Sezione)reader.readObject();
+        reader.close();
+        return s1;
+    }
+     
+    public void serializzazione(){
+        try 
+        {
+            String nomeFileBinario="sezione.bin";
+            this.salvaDati(nomeFileBinario);
+            System.out.println("Salvataggio avvenuto correttamente");
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            System.out.println("File non trovato");
+        } 
+        catch (IOException ex) 
+        {
+             System.out.println("Impossibile accedere al file");
+        }
+    }
+    
+    public void deserializzazione(){
+        try 
+        {
+            String nomeFileBinario="sezione.bin";
+            this.caricaDati(nomeFileBinario);
+            System.out.println("Caricamento effettuato correttamente");
+        }
+        catch (FileNotFoundException ex) 
+        {
+            System.out.println("File non trovato");
+        } 
+        catch (IOException ex) 
+        {
+             System.out.println("Impossibile accedere al file");
+        } 
+        catch (ClassNotFoundException ex) 
+        {
+            System.out.println("Impossibile leggere il dato memorizzato");
+        }
+    }
 }

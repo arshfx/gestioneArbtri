@@ -179,6 +179,23 @@ public class Partita {
     }
 
     /**
+     * Ridefinizione del metodo equals
+     * @param obj
+     * @return true se due oggetti hanno gli stessi attributi
+     */
+    @Override
+    public boolean equals(Object obj) {
+            Partita p = (Partita) obj;
+            return this.codice == p.getCodice() &&
+                   this.squadraOspitante.equals(p.getSquadraOspitante()) &&
+                   this.squadraOspite.equals(p.getSquadraOspite()) &&
+                   this.citta.equals(p.getCitta()) &&
+                   this.giorno.equals(p.getGiorno()) &&
+                   this.distanza == p.getDistanza() &&
+                   this.categoria.equals(p.getCategoria());
+    }
+    
+    /**
      * Restituisce una stringa che rappresenta l'oggetto Partita.
      * @return Una stringa che contiene i dettagli della partita
      */

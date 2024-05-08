@@ -187,6 +187,14 @@ public class Arbitro {
        return partite;
     }
 
+    public Partita getPartita(long codice){
+        for(Partita partita : partite){
+            if(partita.getCodice()==codice){
+                return new Partita(partita);
+            }
+        }
+        return null;
+    }
     
     /**
      * Restituisce una stringa che rappresenta l'arbitro con i suoi dati.
@@ -194,13 +202,12 @@ public class Arbitro {
      */
     @Override
     public String toString() {
-        return "Arbitro{" +
-                "nome='" + nome + '\'' +
-                ", cognome='" + cognome + '\'' +
-                ", categoria='" + categoria + '\'' +
-                ", eta=" + eta +
-                ", codice=" + codice +
-                ", numero di partite=" + getNumeroPartite() +
-                '}';
+        return  "\n\tnome= " + nome +
+                "\n\tcognome= " + cognome +
+                "\n\tcategoria= " + categoria + '\'' +
+                "\n\teta= " + eta +
+                "\n\tcodice= " + codice +
+                "\n\tnumero di partite=" + getNumeroPartite();
+                
     }
 }
